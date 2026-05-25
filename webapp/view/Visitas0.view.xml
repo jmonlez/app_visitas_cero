@@ -1,0 +1,30 @@
+<mvc:View controllerName="visitas.cero.visitas0.controller.Visitas0"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n&gt;title}">
+        <content>
+
+            <FlexBox
+                direction="Row"
+                alignItems="Center"
+                class="sapUiTinyMarginBottom"
+                id="FlexBox0">
+
+                <items>
+                    <Text
+                        text="Pulsa el botn"
+                        class="sapUiTinyMarginEnd"
+                        id="Text0" />
+
+                    <Button
+                        xmlns="sap.m"
+                        text="Botn"
+                        press="onPress"
+                        id="Button0" />
+                </items>
+
+            </FlexBox>
+
+        </content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,115 @@
+{
+  "_version": "1.84.0",
+  "sap.app": {
+    "id": "visitas.cero.visitas0",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.24.0",
+      "toolsId": "61f90110-1a91-45cf-a636-13e129423f29"
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "semobjvisitas-display": {
+          "semanticObject": "semobjvisitas",
+          "action": "display",
+          "title": "{{semobjvisitas-display.flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.148.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "visitas.cero.visitas0.i18n.i18n"
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "visitas.cero.visitas0.view",
+        "async": true,
+        "viewPath": "visitas.cero.visitas0.view"
+      },
+      "routes": [
+        {
+          "name": "RouteVisitas0",
+          "pattern": ":?query:",
+          "target": [
+            "TargetVisitas0"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetVisitas0": {
+          "id": "Visitas0",
+          "name": "Visitas0"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "visitas.cero.visitas0.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "visitascerovisitas0"
+  }
+}
