@@ -1,1 +1,60 @@
-/* Enter your custom styles here */
+.vbxTabla {
+    margin: 2rem;
+}
+
+.tablaBonita {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.sapMListTblHeaderCell {
+    background-color: #8ec5ff !important;
+    text-align: center !important;
+}
+
+.headerText {
+    font-weight: bold;
+    color: black !important;
+    text-align: center !important;
+}
+
+.normalCelda {
+    text-align: left;
+}
+
+.empresaCelda {
+    background-color: #ffe0b2;
+    padding: 0.4rem;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.inicioCelda {
+    background-color: #c8f7c5;
+    padding: 0.4rem;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.finCelda {
+    background-color: #ffcdd2;
+    padding: 0.4rem;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.sapMListTblRow {
+    height: 60px;
+}
+
+.btnSave {
+    margin-right: 1rem;
+}
+
+.dialogContent {
+    padding: 1rem;
+}
+
+.sapMTextarea {
+    border-radius: 8px;
+}

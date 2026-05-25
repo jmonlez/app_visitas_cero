@@ -1,30 +1,101 @@
 <mvc:View controllerName="visitas.cero.visitas0.controller.Visitas0"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
-    <Page id="page" title="{i18n&gt;title}">
+    <Page 
+        id="page" 
+        title="Gestión de Visitas"
+        class="sapUiContentPadding">
+
         <content>
+            <VBox 
+                id="vboxMain" 
+                class="sapUiSmallMargin" 
+                width="85%">
 
-            <FlexBox
-                direction="Row"
-                alignItems="Center"
-                class="sapUiTinyMarginBottom"
-                id="FlexBox0">
+                <Title id="tlDtAu" text="Datos automáticos" level="H2"/>
 
-                <items>
-                    <Text
-                        text="Pulsa el botn"
-                        class="sapUiTinyMarginEnd"
-                        id="Text0" />
+                <Text id="txtFecha" text="📅 Fecha: no establecida" />
+                <Text id="txtHoraInicio" text="⏰ Inicio visita: no registrada" />
+                <Text id="txtHoraFin" text="⏰ Fin visita: no registrada" />
+                <Text id="txtGPS" text="📍 Ubicación: no obtenida" />
+
+                <HBox id="hbx" class="sapUiSmallMarginTop">
 
                     <Button
-                        xmlns="sap.m"
-                        text="Botn"
-                        press="onPress"
-                        id="Button0" />
-                </items>
+                        id="btnStartVisit"
+                        text="▶️ Iniciar visita"
+                        type="Accept"
+                        press="onStartVisit"
+                        visible="{= ${view>/visitState} === 'START' }" />
 
-            </FlexBox>
+                    <Button
+                        id="btnEndVisit"
+                        text="⏹ Finalizar visita"
+                        type="Reject"
+                        press="onEndVisit"
+                        visible="{= ${view>/visitState} === 'END' }" />
 
+                </HBox>
+
+                <HBox
+                    id="hbx2"
+                    class="sapUiSmallMarginTop">
+
+                    <Button
+                        id="btnDate"
+                        text="📅 Registrar fecha"
+                        press="onSetDate" />
+
+                    <Button
+                        id="btnLocation"
+                        text="📍 Obtener ubicación"
+                        press="onGetLocation" />
+                </HBox>
+
+                <Label id="lblEspacio1" text="" />
+
+                <Title id="tlDtEmp" text="🏢 Datos de la empresa" level="H2"/>
+
+                <Label id="lbEmp" text="Empresa" />
+                <Input id="empresa" placeholder="Introduzca nombre de la empresa..." />
+
+                <Label id="lbDir" text="Dirección" />
+                <Input id="direccion" placeholder="Introduzca la dirección..." />
+
+                <Label id="lbTelf" text="Teléfono" />
+                <Input id="contacto" placeholder="Introduzca número de contacto..." />
+
+                <Label id="lbCorreo" text="Correo electrónico" />
+                <Input id="email" placeholder="Introduzca correo de contacto..." />
+
+                <Label id="lbResp" text="Responsable de la visita" />
+                <Input id="responsable" placeholder="Introduzca nombre del encargado..." />
+
+                <Label id="lbEmpd" text="Empleado" />
+                <Input id="empleado" placeholder="Introduzca nombre del empleado..." />
+
+                <Label id="lbObs" text="Observaciones" />
+                <TextArea id="observaciones" placeholder="Introduzca observaciones..." rows="6"/>
+
+                <Label id="lblEspacio2" text="" />
+
+                <HBox id="hbxButtons" justifyContent="SpaceBetween" class="sapUiSmallMarginTop">
+                    <Button
+                        id="btnClear"
+                        text="🧹 Limpiar formulario"
+                        press="onClear" />
+                    <Button
+                        id="btnSave"
+                        text="💾 Guardar visita"
+                        type="Emphasized"
+                        press="onSave" />
+
+                    <Button
+                        id="btnAdmin"
+                        text="📊 Registro de visitas"
+                        enabled="false" />
+                </HBox>
+            </VBox>
         </content>
     </Page>
 </mvc:View>
