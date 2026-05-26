@@ -93,7 +93,7 @@
                     <Button
                         id="btnAdmin"
                         text="📊 Registro de visitas"
-                        enabled="false" />
+                        press="onNavAdmin" />
                 </HBox>
             </VBox>
         </content>

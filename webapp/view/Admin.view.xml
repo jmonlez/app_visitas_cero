@@ -1,0 +1,85 @@
+<mvc:View
+    controllerName="visitas.cero.visitas0.controller.Admin"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="adminPage"
+        title="📊 Registro de visitas">
+
+        <headerContent>
+            <Button
+                id="btnBack"
+                text="⬅ Volver"
+                press="onBack" />
+        </headerContent>
+
+        <content>
+
+            <VBox id="vboxAdmin" class="sapUiSmallMargin">
+
+                <Text
+                    id="txtDemo"
+                    text="Tabla DEMO sin base de datos"
+                    class="sapUiSmallMarginBottom"/>
+
+                <Table
+                    id="tablaVisitas"
+                    items="{demo>/visitas}">
+
+                    <columns>
+
+                        <Column id="colEmpresa">
+                            <Text id="txtColEmpresa" text="Empresa"/>
+                        </Column>
+
+                        <Column id="colEmpleado">
+                            <Text id="txtColEmpleado" text="Empleado"/>
+                        </Column>
+
+                        <Column id="colFecha">
+                            <Text id="txtColFecha" text="Fecha"/>
+                        </Column>
+
+                        <Column id="colEstado">
+                            <Text id="txtColEstado" text="Estado"/>
+                        </Column>
+
+                        <Column id="colAcciones">
+                            <Text id="txtColAcciones" text="Acciones"/>
+                        </Column>
+
+                    </columns>
+
+                    <items>
+
+                        <ColumnListItem id="cliVisita">
+
+                            <cells>
+
+                                <Text id="txtVisitaEmpresa" text="{demo>empresa}" />
+                                <Text id="txtVisitaEmpleado" text="{demo>empleado}" />
+                                <Text id="txtVisitaFecha" text="{demo>fecha}" />
+                                <Text id="txtVisitaEstado" text="{demo>estado}" />
+
+                                <Button
+                                    id="btnDelete"
+                                    text="🗑 Eliminar"
+                                    type="Reject"
+                                    press="onDelete" />
+
+                            </cells>
+
+                        </ColumnListItem>
+
+                    </items>
+
+                </Table>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

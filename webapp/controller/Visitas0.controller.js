@@ -127,7 +127,7 @@ function (Controller, MessageToast, JSONModel) {
         },
 
         onNavAdmin: function () {
-            MessageToast.show("Admin desactivado en modo demo");
+            this.getOwnerComponent().getRouter().navTo("RouteAdmin");
         },
 
         onClear: function () {

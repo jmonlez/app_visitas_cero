@@ -92,12 +92,23 @@
           "target": [
             "TargetVisitas0"
           ]
+        },
+        {
+          "name": "RouteAdmin",
+          "pattern": "admin",
+          "target": [
+            "TargetAdmin"
+          ]
         }
       ],
       "targets": {
         "TargetVisitas0": {
           "id": "Visitas0",
           "name": "Visitas0"
+        },
+        "TargetAdmin": {
+          "id": "Admin",
+          "name": "Admin"
         }
       }
     },
