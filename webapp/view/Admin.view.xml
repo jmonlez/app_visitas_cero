@@ -16,62 +16,86 @@
 
         <content>
 
-            <VBox id="vboxAdmin" class="sapUiSmallMargin">
+            <VBox id="vboxAdmin" class="vbxTabla">
 
                 <Text
                     id="txtDemo"
-                    text="Tabla DEMO sin base de datos"
+                    text="📋 Tabla de visitas (demo)"
                     class="sapUiSmallMarginBottom"/>
 
                 <Table
                     id="tablaVisitas"
-                    items="{demo>/visitas}">
+                    class="tablaBonita"
+                    items="{demo>/visitas}"
+                    growing="true">
 
                     <columns>
 
-                        <Column id="colEmpresa">
-                            <Text id="txtColEmpresa" text="Empresa"/>
-                        </Column>
+                        <Column id="colEmpresa"><Text id="txtEmpresa" text="Empresa"/></Column>
+                        <Column id="colDireccion"><Text id="txtDireccion" text="Dirección"/></Column>
+                        <Column id="colContacto"><Text id="txtContacto" text="Contacto"/></Column>
+                        <Column id="colEmail"><Text id="txtEmail" text="Email"/></Column>
+                        <Column id="colResponsable"><Text id="txtResponsable" text="Responsable"/></Column>
+                        <Column id="colEmpleado"><Text id="txtEmpleado" text="Empleado"/></Column>
 
-                        <Column id="colEmpleado">
-                            <Text id="txtColEmpleado" text="Empleado"/>
-                        </Column>
+                        <Column id="colFecha"><Text id="txtFecha" text="Fecha"/></Column>
+                        <Column id="colInicio"><Text id="txtInicio" text="Inicio"/></Column>
+                        <Column id="colFin"><Text id="txtFin" text="Fin"/></Column>
 
-                        <Column id="colFecha">
-                            <Text id="txtColFecha" text="Fecha"/>
-                        </Column>
+                        <Column id="colLat"><Text id="txtLat" text="Lat"/></Column>
+                        <Column id="colLon"><Text id="txtLon" text="Lon"/></Column>
 
-                        <Column id="colEstado">
-                            <Text id="txtColEstado" text="Estado"/>
-                        </Column>
+                        <Column id="colObservaciones"><Text id="txtObservaciones" text="Observaciones"/></Column>
+                    
+                        <Column id="colEliminar"><Text id="txtEliminar" text="Eliminar"/></Column>
+                        <Column id="colEditar"><Text id="txtEditar" text="Editar"/></Column>
 
-                        <Column id="colAcciones">
-                            <Text id="txtColAcciones" text="Acciones"/>
-                        </Column>
+                        <Column id="colMetadata"><Text id="txtMetadata" text="Última mod."/></Column>
 
                     </columns>
 
                     <items>
-
                         <ColumnListItem id="cliVisita">
 
                             <cells>
 
-                                <Text id="txtVisitaEmpresa" text="{demo>empresa}" />
-                                <Text id="txtVisitaEmpleado" text="{demo>empleado}" />
-                                <Text id="txtVisitaFecha" text="{demo>fecha}" />
-                                <Text id="txtVisitaEstado" text="{demo>estado}" />
+                                <Text id="txtEmp" text="{demo>empresa}" class="empresaCelda"/>
+                                <Text id="txtDirec" text="{demo>direccion}" class="normalCelda"/>
+                                <Text id="txtCont" text="{demo>contacto}" class="normalCelda"/>
+                                <Text id="txtEml" text="{demo>email}" class="normalCelda"/>
+                                <Text id="txtResp" text="{demo>responsable}" class="normalCelda"/>
+                                <Text id="txtEmpl" text="{demo>empleado}" class="normalCelda"/>
+
+                                <Text id="txtFe" text="{demo>fecha}" class="normalCelda"/>
+                                <Text id="txtIn" text="{demo>horaInicio}" class="inicioCelda"/>
+                                <Text id="txtFn" text="{demo>horaFin}" class="finCelda"/>
+
+                                <Text id="txtLt" text="{demo>latitud}" class="normalCelda"/>
+                                <Text id="txtLn" text="{demo>longitud}" class="normalCelda"/>
 
                                 <Button
+                                    id="btnObs"
+                                    text="..."
+                                    type="Transparent"
+                                    press="onOpenObs" />
+
+                                <Button 
                                     id="btnDelete"
-                                    text="🗑 Eliminar"
-                                    type="Reject"
-                                    press="onDelete" />
+                                    icon="sap-icon://delete" 
+                                    type="Reject" 
+                                    press="onDelete"/>
+
+                                <Button 
+                                    id="btnEdit"
+                                    icon="sap-icon://edit" 
+                                    type="Emphasized" 
+                                    press="onEdit"/>
+
+                                <Text id="txtMod" text="Nunca modificado" class="normalCelda"/>
 
                             </cells>
 
                         </ColumnListItem>
-
                     </items>
 
                 </Table>
