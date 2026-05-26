@@ -75,7 +75,7 @@
                 <Input id="empleado" placeholder="Introduzca nombre del empleado..." />
 
                 <Label id="lbObs" text="Observaciones" />
-                <TextArea id="observaciones" placeholder="Introduzca observaciones..." rows="6"/>
+                <TextArea id="observaciones" placeholder="Introduzca observaciones..." rows="6" width="100%" />
 
                 <Label id="lblEspacio2" text="" />
 

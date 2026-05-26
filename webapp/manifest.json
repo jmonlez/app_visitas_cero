@@ -88,17 +88,13 @@
       "routes": [
         {
           "name": "RouteVisitas0",
-          "pattern": ":?query:",
-          "target": [
-            "TargetVisitas0"
-          ]
+          "pattern": "",
+          "target": "TargetVisitas0"
         },
         {
           "name": "RouteAdmin",
           "pattern": "admin",
-          "target": [
-            "TargetAdmin"
-          ]
+          "target": "TargetAdmin"
         }
       ],
       "targets": {
