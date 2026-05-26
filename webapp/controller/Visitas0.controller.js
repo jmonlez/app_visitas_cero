@@ -124,6 +124,15 @@ function (Controller, MessageToast, JSONModel) {
 
             };
             
+            const oModel = this.getOwnerComponent().getModel("global");
+
+            const aVisitas = oModel.getProperty("/visitas");
+
+            aVisitas.push(data);
+
+            oModel.setProperty("/visitas", aVisitas);
+
+            sap.m.MessageToast.show("✔ Visita guardada correctamente");
         },
 
         onNavAdmin: function () {

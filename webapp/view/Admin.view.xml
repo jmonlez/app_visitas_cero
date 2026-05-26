@@ -26,7 +26,7 @@
                 <Table
                     id="tablaVisitas"
                     class="tablaBonita"
-                    items="{demo>/visitas}"
+                    items="{global>/visitas}"
                     growing="true">
 
                     <columns>
@@ -59,19 +59,19 @@
 
                             <cells>
 
-                                <Text id="txtEmp" text="{demo>empresa}" class="empresaCelda"/>
-                                <Text id="txtDirec" text="{demo>direccion}" class="normalCelda"/>
-                                <Text id="txtCont" text="{demo>contacto}" class="normalCelda"/>
-                                <Text id="txtEml" text="{demo>email}" class="normalCelda"/>
-                                <Text id="txtResp" text="{demo>responsable}" class="normalCelda"/>
-                                <Text id="txtEmpl" text="{demo>empleado}" class="normalCelda"/>
+                                <Text id="txtEmp" text="{global>empresa}" class="empresaCelda"/>
+                                <Text id="txtDirec" text="{global>direccion}" class="normalCelda"/>
+                                <Text id="txtCont" text="{global>contacto}" class="normalCelda"/>
+                                <Text id="txtEml" text="{global>email}" class="normalCelda"/>
+                                <Text id="txtResp" text="{global>responsable}" class="normalCelda"/>
+                                <Text id="txtEmpl" text="{global>empleado}" class="normalCelda"/>
 
-                                <Text id="txtFe" text="{demo>fecha}" class="normalCelda"/>
-                                <Text id="txtIn" text="{demo>horaInicio}" class="inicioCelda"/>
-                                <Text id="txtFn" text="{demo>horaFin}" class="finCelda"/>
+                                <Text id="txtFe" text="{global>fecha}" class="normalCelda"/>
+                                <Text id="txtIn" text="{global>horaInicio}" class="inicioCelda"/>
+                                <Text id="txtFn" text="{global>horaFin}" class="finCelda"/>
 
-                                <Text id="txtLt" text="{demo>latitud}" class="normalCelda"/>
-                                <Text id="txtLn" text="{demo>longitud}" class="normalCelda"/>
+                                <Text id="txtLt" text="{global>latitud}" class="normalCelda"/>
+                                <Text id="txtLn" text="{global>longitud}" class="normalCelda"/>
 
                                 <Button
                                     id="btnObs"

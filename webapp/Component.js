@@ -1,7 +1,8 @@
 sap.ui.define([
     "sap/ui/core/UIComponent",
+    "sap/ui/model/json/JSONModel",
     "visitas/cero/visitas0/model/models"
-], (UIComponent, models) => {
+], (UIComponent, JSONModel, models) => {
     "use strict";
 
     return UIComponent.extend("visitas.cero.visitas0.Component", {
@@ -13,13 +14,15 @@ sap.ui.define([
         },
 
         init() {
-            // call the base component's init function
+
             UIComponent.prototype.init.apply(this, arguments);
 
-            // set the device model
-            this.setModel(models.createDeviceModel(), "device");
+            const oGlobalModel = new JSONModel({
+                visitas: []
+            });
 
-            // enable routing
+            this.setModel(oGlobalModel, "global");
+
             this.getRouter().initialize();
         }
     });
