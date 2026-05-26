@@ -14,7 +14,7 @@
 
                 <Title id="tlDtAu" text="Datos automáticos" level="H2"/>
 
-                <Text id="txtFech" text="📅 Fecha: no establecida" />
+                <Text id="txtFecha" text="📅 Fecha: no establecida" />
                 <Text id="txtHoraInicio" text="⏰ Inicio visita: no registrada" />
                 <Text id="txtHoraFin" text="⏰ Fin visita: no registrada" />
                 <Text id="txtGPS" text="📍 Ubicación: no obtenida" />

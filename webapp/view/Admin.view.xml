@@ -38,7 +38,7 @@
                         <Column id="colResponsable"><Text id="txtResponsable" text="Responsable"/></Column>
                         <Column id="colEmpleado"><Text id="txtEmpleado" text="Empleado"/></Column>
 
-                        <Column id="colFecha"><Text id="txtFecha" text="Fecha"/></Column>
+                        <Column id="colFecha"><Text id="txtFech" text="Fecha"/></Column>
                         <Column id="colInicio"><Text id="txtInicio" text="Inicio"/></Column>
                         <Column id="colFin"><Text id="txtFin" text="Fin"/></Column>
 
@@ -91,8 +91,7 @@
                                     type="Emphasized" 
                                     press="onEdit"/>
 
-                                <Text id="txtMod" text="Nunca modificado" class="normalCelda"/>
-
+                                <Text id="txtMod" text="{= ${global>ultimaModificacion} ? ${global>ultimaModificacion} : 'Nunca modificado' }"/>
                             </cells>
 
                         </ColumnListItem>

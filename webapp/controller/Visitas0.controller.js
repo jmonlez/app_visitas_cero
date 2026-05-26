@@ -20,6 +20,21 @@ function (Controller, MessageToast, JSONModel) {
             });
 
             this.getView().setModel(oViewModel, "view");
+
+            const oEdit = this.getOwnerComponent().getModel("edit");
+
+            if (oEdit) {
+                const data = oEdit.getData();
+
+                this.byId("empresa").setValue(data.empresa);
+                this.byId("direccion").setValue(data.direccion);
+                this.byId("contacto").setValue(data.contacto);
+                this.byId("email").setValue(data.email);
+                this.byId("responsable").setValue(data.responsable);
+                this.byId("empleado").setValue(data.empleado);
+                this.byId("observaciones").setValue(data.observaciones);
+
+            }
         },
 
         onGetLocation: function () {
@@ -48,11 +63,14 @@ function (Controller, MessageToast, JSONModel) {
         onSetDate: function () {
 
             const now = new Date();
+
             this._fecha = now.toISOString().split("T")[0];
 
             this.byId("txtFecha").setText("📅 Fecha: " + this._fecha);
 
-            MessageToast.show("Fecha registrada correctamente");
+            this.getView().getModel("view").setProperty("/dateSet", true);
+
+            MessageToast.show("Fecha registrada ✔");
 
         },
 
@@ -84,6 +102,8 @@ function (Controller, MessageToast, JSONModel) {
 
         onSave: function () {
 
+            const oModel = this.getOwnerComponent().getModel("global");
+
             const empresa = this.byId("empresa").getValue();
             const direccion = this.byId("direccion").getValue();
             const contacto = this.byId("contacto").getValue();
@@ -99,11 +119,19 @@ function (Controller, MessageToast, JSONModel) {
             if (!responsable) return MessageToast.show("Introduzca el responsable");
             if (!empleado) return MessageToast.show("Introduzca el empleado");
 
-            if (!this._fecha) return MessageToast.show("Debe registrar la fecha");
+            if (!this._fecha) {
+                const now = new Date();
+                this._fecha = now.toISOString().split("T")[0];
+                this.byId("txtFecha").setText("📅 Fecha: " + this._fecha);
+                MessageToast.show("Fecha establecida ✔");
+            }
 
             if (!this._horaInicio || !this._horaFin) return MessageToast.show("Debe iniciar y finalizar la visita");
 
             if (!this._lat || !this._lon) return MessageToast.show("Debe obtener la ubicación GPS");
+            
+            const oEdit = this.getOwnerComponent().getModel("edit");
+            const aVisitas = oModel.getProperty("/visitas");
 
             const data = {
 
@@ -123,16 +151,27 @@ function (Controller, MessageToast, JSONModel) {
                 longitud: this._lon
 
             };
-            
-            const oModel = this.getOwnerComponent().getModel("global");
 
-            const aVisitas = oModel.getProperty("/visitas");
+            if (oEdit) {
 
-            aVisitas.push(data);
+                const index = aVisitas.findIndex(v => v === oEdit.getData());
+
+                if (index !== -1) {
+                    data.ultimaModificacion = new Date().toLocaleString();
+                    aVisitas[index] = data;
+                }
+
+                this.getOwnerComponent().setModel(null, "edit");
+
+                MessageToast.show("✔ Visita actualizada");
+
+            } else {
+
+                aVisitas.push(data);
+                MessageToast.show("✔ Visita guardada");;
+            }
 
             oModel.setProperty("/visitas", aVisitas);
-
-            sap.m.MessageToast.show("✔ Visita guardada correctamente");
         },
 
         onNavAdmin: function () {
