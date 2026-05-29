@@ -1,7 +1,13 @@
 {
   "welcomeFile": "/index.html",
   "authenticationMethod": "route",
-  "routes": [
+  "routes": [   
+    {
+      "source": "^/odata/(.*)$",
+      "target": "/odata/$1",
+      "destination": "cap-api",
+      "authenticationType": "none"
+    },
     {
       "source": "^/resources/(.*)$",
       "target": "/resources/$1",

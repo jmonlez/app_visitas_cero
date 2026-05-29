@@ -102,7 +102,9 @@ function (Controller, MessageToast, JSONModel) {
 
         onSave: function () {
 
-            const oModel = this.getOwnerComponent().getModel("global");
+            const oModel = this.getView().getModel();
+
+            console.log(oModel);
 
             const empresa = this.byId("empresa").getValue();
             const direccion = this.byId("direccion").getValue();
@@ -129,9 +131,6 @@ function (Controller, MessageToast, JSONModel) {
             if (!this._horaInicio || !this._horaFin) return MessageToast.show("Debe iniciar y finalizar la visita");
 
             if (!this._lat || !this._lon) return MessageToast.show("Debe obtener la ubicación GPS");
-            
-            const oEdit = this.getOwnerComponent().getModel("edit");
-            const aVisitas = oModel.getProperty("/visitas");
 
             const data = {
 
@@ -152,26 +151,13 @@ function (Controller, MessageToast, JSONModel) {
 
             };
 
-            if (oEdit) {
+            const oListBinding = oModel.bindList("/Visitas");
 
-                const index = aVisitas.findIndex(v => v === oEdit.getData());
+            oListBinding.create(data);
 
-                if (index !== -1) {
-                    data.ultimaModificacion = new Date().toLocaleString();
-                    aVisitas[index] = data;
-                }
+            MessageToast.show("Visita registrada ✔");
 
-                this.getOwnerComponent().setModel(null, "edit");
-
-                MessageToast.show("✔ Visita actualizada");
-
-            } else {
-
-                aVisitas.push(data);
-                MessageToast.show("✔ Visita guardada");;
-            }
-
-            oModel.setProperty("/visitas", aVisitas);
+            this.onClear();
         },
 
         onNavAdmin: function () {

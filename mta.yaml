@@ -71,6 +71,12 @@ resources:
             ProxyType: Internet
             Type: HTTP
             URL: https://ui5.sap.com
+          - Name: cap-api
+            Type: HTTP
+            ProxyType: Internet
+            URL: https://361a1e92trial-dev-visitas-cap-srv.cfapps.us10-001.hana.ondemand.com
+            Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
           existing_destinations_policy: update
       version: 1.0.0
     service: destination

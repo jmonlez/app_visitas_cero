@@ -1,0 +1,28 @@
+_schema-version: "3.1"
+ID: visitas-cap
+version: 1.0.0
+
+
+modules:
+  - name: visitas-cap-db-deployer
+    type: hdb
+    path: gen/db
+    requires:
+      - name: visitas-cap-db
+
+  - name: visitas-cap-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    requires:
+      - name: visitas-cap-db
+
+resources:
+  - name: visitas-cap-db
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: hana
+      service-plan: hdi-shared

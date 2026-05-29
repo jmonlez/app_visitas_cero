@@ -27,6 +27,15 @@
           }
         }
       }
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/visitas/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
     }
   },
   "sap.ui": {
@@ -45,7 +54,16 @@
       "phone": true
     }
   },
-  "sap.ui5": {
+  "sap.ui5": { 
+    "": {
+      "type": "sap.ui.model.odata.v4.ODataModel",
+      "dataSource": "mainService",
+      "settings": {
+        "operationMode": "Server",
+        "synchronizationMode": "None",
+        "autoExpandSelect": true
+      }
+    },
     "flexEnabled": true,
     "dependencies": {
       "minUI5Version": "1.148.0",
@@ -59,6 +77,15 @@
       "cozy": true
     },
     "models": {
+      "": {
+        "type": "sap.ui.model.odata.v4.ODataModel",
+        "dataSource": "mainService",
+        "settings": {
+          "operationMode": "Server",
+          "synchronizationMode": "None",
+          "autoExpandSelect": true
+        }
+      },
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
