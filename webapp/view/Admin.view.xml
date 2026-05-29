@@ -26,7 +26,7 @@
                 <Table
                     id="tablaVisitas"
                     class="tablaBonita"
-                    items="{global>/visitas}"
+                    items="{/Visitas}"
                     growing="true">
 
                     <columns>
@@ -59,19 +59,19 @@
 
                             <cells>
 
-                                <Text id="txtEmp" text="{global>empresa}" class="empresaCelda"/>
-                                <Text id="txtDirec" text="{global>direccion}" class="normalCelda"/>
-                                <Text id="txtCont" text="{global>contacto}" class="normalCelda"/>
-                                <Text id="txtEml" text="{global>email}" class="normalCelda"/>
-                                <Text id="txtResp" text="{global>responsable}" class="normalCelda"/>
-                                <Text id="txtEmpl" text="{global>empleado}" class="normalCelda"/>
+                                <Text id="txtEmp" text="{empresa}" class="empresaCelda"/>
+                                <Text id="txtDirec" text="{direccion}" class="normalCelda"/>
+                                <Text id="txtCont" text="{contacto}" class="normalCelda"/>
+                                <Text id="txtEml" text="{email}" class="normalCelda"/>
+                                <Text id="txtResp" text="{responsable}" class="normalCelda"/>
+                                <Text id="txtEmpl" text="{empleado}" class="normalCelda"/>
 
-                                <Text id="txtFe" text="{global>fecha}" class="normalCelda"/>
-                                <Text id="txtIn" text="{global>horaInicio}" class="inicioCelda"/>
-                                <Text id="txtFn" text="{global>horaFin}" class="finCelda"/>
+                                <Text id="txtFe" text="{fecha}" class="normalCelda"/>
+                                <Text id="txtIn" text="{horaInicio}" class="inicioCelda"/>
+                                <Text id="txtFn" text="{horaFin}" class="finCelda"/>
 
-                                <Text id="txtLt" text="{global>latitud}" class="normalCelda"/>
-                                <Text id="txtLn" text="{global>longitud}" class="normalCelda"/>
+                                <Text id="txtLt" text="{latitud}" class="normalCelda"/>
+                                <Text id="txtLn" text="{longitud}" class="normalCelda"/>
 
                                 <Button
                                     id="btnObs"
@@ -91,7 +91,7 @@
                                     type="Emphasized" 
                                     press="onEdit"/>
 
-                                <Text id="txtMod" text="{= ${global>ultimaModificacion} ? ${global>ultimaModificacion} : 'Nunca modificado' }"/>
+                                <Text id="txtMod" text="{= ${ultimaModificacion} ? ${ultimaModificacion} : 'Nunca modificado' }"/>
                             </cells>
 
                         </ColumnListItem>
