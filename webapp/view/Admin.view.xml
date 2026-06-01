@@ -20,7 +20,7 @@
 
                 <Text
                     id="txtDemo"
-                    text="📋 Tabla de visitas (demo)"
+                    text="📋 Tabla de visitas"
                     class="sapUiSmallMarginBottom"/>
 
                 <Table

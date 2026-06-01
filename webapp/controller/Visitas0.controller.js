@@ -14,7 +14,26 @@ function (Controller, MessageToast, JSONModel) {
         _lat: null,
         _lon: null,
 
+        _updateButtons: function () {
+            const state = this.getView().getModel("view").getProperty("/visitState");
+
+            const btnStart = this.byId("btnStartVisit");
+            const btnEnd = this.byId("btnEndVisit");
+
+            if (this._editMode) {
+                btnStart.setVisible(false);
+                btnEnd.setVisible(false);
+                return;
+            }
+
+            btnStart.setVisible(state === "START");
+            btnEnd.setVisible(state === "END");
+        },
+
         onInit: function () {
+
+            this._editMode = false;
+
             const oViewModel = new JSONModel({
                 visitState: "START"
             });
@@ -24,6 +43,9 @@ function (Controller, MessageToast, JSONModel) {
             const oEdit = this.getOwnerComponent().getModel("edit");
 
             if (oEdit) {
+
+                this._editMode = true;
+
                 const data = oEdit.getData();
 
                 this.byId("empresa").setValue(data.empresa);
@@ -35,6 +57,8 @@ function (Controller, MessageToast, JSONModel) {
                 this.byId("observaciones").setValue(data.observaciones);
 
             }
+
+            this._updateButtons();
         },
 
         onGetLocation: function () {
@@ -83,6 +107,8 @@ function (Controller, MessageToast, JSONModel) {
 
             this.getView().getModel("view").setProperty("/visitState", "END");
 
+            this._updateButtons();
+
             MessageToast.show("Visita iniciada ✔");
 
         },
@@ -96,6 +122,8 @@ function (Controller, MessageToast, JSONModel) {
 
             this.getView().getModel("view").setProperty("/visitState", "DONE");
 
+            this._updateButtons();
+
             MessageToast.show("Visita finalizada ✔");
 
         },
@@ -103,8 +131,6 @@ function (Controller, MessageToast, JSONModel) {
         onSave: function () {
 
             const oModel = this.getView().getModel();
-
-            console.log(oModel);
 
             const empresa = this.byId("empresa").getValue();
             const direccion = this.byId("direccion").getValue();
@@ -114,6 +140,16 @@ function (Controller, MessageToast, JSONModel) {
             const empleado = this.byId("empleado").getValue();
             const observaciones = this.byId("observaciones").getValue();
 
+            const data = {
+                empresa: empresa,
+                direccion: direccion,
+                contacto: contacto,
+                email: email,
+                responsable: responsable,
+                empleado: empleado,
+                observaciones: observaciones
+            };
+
             if (!empresa) return MessageToast.show("Introduzca la empresa");
             if (!direccion) return MessageToast.show("Introduzca la dirección");
             if (!contacto) return MessageToast.show("Introduzca el contacto");
@@ -121,43 +157,48 @@ function (Controller, MessageToast, JSONModel) {
             if (!responsable) return MessageToast.show("Introduzca el responsable");
             if (!empleado) return MessageToast.show("Introduzca el empleado");
 
-            if (!this._fecha) {
-                const now = new Date();
-                this._fecha = now.toISOString().split("T")[0];
-                this.byId("txtFecha").setText("📅 Fecha: " + this._fecha);
-                MessageToast.show("Fecha establecida ✔");
+            if (!this._fecha || !this._horaInicio || !this._horaFin) {
+                return MessageToast.show("Completa la visita (inicio y fin)");
             }
 
-            if (!this._horaInicio || !this._horaFin) return MessageToast.show("Debe iniciar y finalizar la visita");
-
             if (!this._lat || !this._lon) return MessageToast.show("Debe obtener la ubicación GPS");
-
-            const data = {
-
-                empresa: empresa,
-                direccion: direccion,
-                contacto: contacto,
-                email: email,
-                responsable: responsable,
-                empleado: empleado,
-                observaciones: observaciones,
-
-                fecha: this._fecha,
+            
+            Object.assign(data, {
+                fecha: new Date(this._fecha),
                 horaInicio: this._horaInicio,
                 horaFin: this._horaFin,
-
                 latitud: this._lat,
                 longitud: this._lon
+            });
 
-            };
+            const oEdit = this.getOwnerComponent().getModel("edit");
 
-            const oListBinding = oModel.bindList("/Visitas");
+            if (oEdit) {
 
-            oListBinding.create(data);
+                const sPath = oEdit.getPath();
 
-            MessageToast.show("Visita registrada ✔");
+                oModel.update(sPath, data, {
+                    success: () => {
+                        MessageToast.show("✔ Visita actualizada");
 
-            this.onClear();
+                        this.getOwnerComponent().setModel(null, "edit");
+                        this.onClear(true);
+
+                        this.getView().getModel("view").setProperty("/visitState", "START");
+                        this._updateButtons();
+                    },
+                    error: (err) => {
+                        MessageToast.show("Error al actualizar ❌");
+                        console.error(err);
+                    }
+                });
+
+                return;
+            }
+
+            oModel.bindList("/Visitas").create(data)
+            MessageToast.show("✔ Visita guardada");
+            this.onClear(true);
         },
 
         onNavAdmin: function () {

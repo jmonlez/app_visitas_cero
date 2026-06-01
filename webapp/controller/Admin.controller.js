@@ -8,7 +8,13 @@ sap.ui.define([
 
     return Controller.extend("visitas.cero.visitas0.controller.Admin", {
         onInit: function () {
-            
+            const oEdit = this.getOwnerComponent().getModel("edit");
+
+            const oViewModel = new JSONModel({
+                sitState: oEdit ? "DONE" : "START"
+            });
+
+            this.getView().setModel(oViewModel, "view");
         },
 
         onBack: function () {
@@ -16,28 +22,34 @@ sap.ui.define([
         },
 
         onOpenObs: function (oEvent) {
+            
+            const oItem = oEvent.getSource().getParent();
+            const oContext = oItem.getBindingContext();
 
-    const oContext = oEvent.getSource().getBindingContext("global");
-    const sText = oContext.getProperty("observaciones");
+            const oData = oContext.getObject();
+            const sText = oData?.observaciones;
 
-    if (!this._oDialog) {
+            if (!this._oDialog) {
 
-        this._oDialog = new sap.m.Dialog({
-            title: "📝 Observaciones",
-            contentWidth: "500px",
-            content: new sap.m.Text({
-                wrapping: true
-            }),
-            endButton: new sap.m.Button({
-                text: "Cerrar",
-                press: function () {
-                    this._oDialog.close();
-                }.bind(this)
-            })
-        });
+                this._oDialog = new sap.m.Dialog({
+                    title: "📝 Observaciones",
+                    contentWidth: "500px",
+                    content: new sap.m.Text({
+                        editable: false,
+                        rows: 7,
+                        width: "100%",
+                        class: "obsDialogArea"
+                    }),
+                    endButton: new sap.m.Button({
+                        text: "Cerrar",
+                        press: function () {
+                            this._oDialog.close();
+                        }.bind(this)
+                    })
+            });
 
-        this.getView().addDependent(this._oDialog);
-    }
+            this.getView().addDependent(this._oDialog);
+        }
 
         this._oDialog.getContent()[0].setText(sText || "Sin observaciones");
         this._oDialog.open();
@@ -45,10 +57,7 @@ sap.ui.define([
 
     onDelete: function (oEvent) {
 
-        const oContext = oEvent.getSource().getBindingContext("global");
-        const oModel = this.getOwnerComponent().getModel("global");
-        const aVisitas = oModel.getProperty("/visitas");
-        const oObject = oContext.getObject();
+        const oContext = oEvent.getSource().getBindingContext();
 
         sap.m.MessageBox.confirm("¿Seguro que quieres eliminar esta visita?", {
             title: "Confirmar eliminación",
@@ -58,12 +67,12 @@ sap.ui.define([
             onClose: function (sAction) {
                 if (sAction === MessageBox.Action.OK) {
 
-                    const iIndex = aVisitas.indexOf(oObject);
-
-                    if (iIndex > -1) {
-                        aVisitas.splice(iIndex, 1);
-                        oModel.setProperty("/visitas", aVisitas);
-                    }
+                    oContext.delete().then(function () {
+                        sap.m.MessageToast.show("Visita eliminada ✔");
+                    }).catch(function (err) {
+                        sap.m.MessageToast.show("Error al eliminar ❌");
+                        console.error(err);
+                    });
 
                     sap.m.MessageToast.show("Visita eliminada ✔");
                 }
@@ -73,11 +82,12 @@ sap.ui.define([
 
     onEdit: function (oEvent) {
 
-        const oContext = oEvent.getSource().getBindingContext("global");
+        const oContext = oEvent.getSource().getParent().getBindingContext();
         const oData = oContext.getObject();
 
-        const oEditModel = new sap.ui.model.json.JSONModel(oData);
+        this.getOwnerComponent()._oEditContext = oContext;
 
+        const oEditModel = new sap.ui.model.json.JSONModel(oData);
         this.getOwnerComponent().setModel(oEditModel, "edit");
 
         this.getOwnerComponent().getRouter().navTo("RouteVisitas0");
