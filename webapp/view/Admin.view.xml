@@ -26,8 +26,13 @@
                 <Table
                     id="tablaVisitas"
                     class="tablaBonita"
-                    items="{/Visitas}"
-                    growing="true">
+                    growing="true"
+                    items="{
+                        path: '/Visitas',
+                        parameters: {
+                        $select: 'ID,empresa,direccion,contacto,email,responsable,empleado,fecha,horaInicio,horaFin,latitud,longitud,observaciones,ultimaModificacion'
+                        }
+                    }">
 
                     <columns>
 
