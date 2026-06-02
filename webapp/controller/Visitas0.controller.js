@@ -241,7 +241,7 @@ function (Controller, MessageToast, JSONModel) {
             
             const oContext = this.getOwnerComponent()._oEditContext;
 
-            if (oContext) {
+            if (this._editMode && oContext) {
 
                 const now = new Date();
 
@@ -267,6 +267,8 @@ function (Controller, MessageToast, JSONModel) {
                 this.onClear();
 
                 this.getOwnerComponent().getRouter().navTo("RouteAdmin");
+
+                return;
             }
 
             oModel.bindList("/Visitas").create(data)
