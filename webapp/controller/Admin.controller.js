@@ -89,11 +89,13 @@ sap.ui.define([
 
     onEdit: function (oEvent) {
 
-        const oContext = oEvent.getSource().getParent().getBindingContext();
+        const oContext = oEvent.getSource().getBindingContext();
         const oData = oContext.getObject();
 
         const oEditModel = new JSONModel(oData);
         this.getOwnerComponent().setModel(oEditModel, "edit");
+
+        this.getOwnerComponent()._oEditContext = oContext;
 
         this.getOwnerComponent().getRouter().navTo("RouteVisitas0");
     }

@@ -15,7 +15,6 @@ function (Controller, MessageToast, JSONModel) {
         _lon: null,
 
         _updateButtons: function () {
-            const state = this.getView().getModel("view").getProperty("/visitState");
 
             const btnStart = this.byId("btnStartVisit");
             const btnEnd = this.byId("btnEndVisit");
@@ -26,8 +25,19 @@ function (Controller, MessageToast, JSONModel) {
                 return;
             }
 
-            btnStart.setVisible(state === "START");
-            btnEnd.setVisible(state === "END");
+            const state = this.getView().getModel("view").getProperty("/visitState");
+            
+                if (state === "START") {
+                    btnStart.setVisible(true);
+                    btnEnd.setVisible(false);
+                } else if (state === "END") {
+                    btnStart.setVisible(false);
+                    btnEnd.setVisible(true);
+                } else {
+                    btnStart.setVisible(false);
+                    btnEnd.setVisible(false);
+                }
+
         },
 
         onInit: function () {
@@ -40,28 +50,75 @@ function (Controller, MessageToast, JSONModel) {
 
             this.getView().setModel(oViewModel, "view");
 
+            this.getOwnerComponent()
+                .getRouter()
+                .getRoute("RouteVisitas0")
+                .attachPatternMatched(this._onRouteMatched, this);
+        },
+
+        _onRouteMatched: function () {
+
             const oEdit = this.getOwnerComponent().getModel("edit");
 
-            if (oEdit) {
+            if (!oEdit || !oEdit.oData || Object.keys(oEdit.oData).length === 0) {
+                this.getOwnerComponent().setModel(null, "edit");
+                this.getOwnerComponent()._oEditContext = null;
 
-                this._editMode = true;
+                this._editMode = false;
 
-                const data = oEdit.getData();
+                this.onClear();
 
-                this.byId("empresa").setValue(data.empresa);
-                this.byId("direccion").setValue(data.direccion);
-                this.byId("contacto").setValue(data.contacto);
-                this.byId("email").setValue(data.email);
-                this.byId("responsable").setValue(data.responsable);
-                this.byId("empleado").setValue(data.empleado);
-                this.byId("observaciones").setValue(data.observaciones);
+                this.byId("btnSave").setText("💾 Guardar visita");
 
+                return;
+            }
+
+            this._editMode = true;
+
+            this.getView().getModel("view").setProperty("/visitState", "DONE");
+
+            this.byId("btnSave").setText("🔄 Actualizar visita");
+
+            const data = oEdit.oData;
+
+            this.byId("empresa").setValue(data.empresa || "");
+            this.byId("direccion").setValue(data.direccion || "");
+            this.byId("contacto").setValue(data.contacto || "");
+            this.byId("email").setValue(data.email || "");
+            this.byId("responsable").setValue(data.responsable || "");
+            this.byId("empleado").setValue(data.empleado || "");
+            this.byId("observaciones").setValue(data.observaciones || "");
+
+            this._fecha = data.fecha;
+            this._horaInicio = data.horaInicio;
+            this._horaFin = data.horaFin;
+            this._lat = data.latitud;
+            this._lon = data.longitud;
+
+            this.byId("txtFecha").setText("📅 Fecha: " + (data.fecha || "no establecida"));
+            this.byId("txtHoraInicio").setText("⏰ Inicio visita: " + (data.horaInicio || "no registrada"));
+            this.byId("txtHoraFin").setText("⏰ Fin visita: " + (data.horaFin || "no registrada"));
+
+            const gps = (data.latitud && data.longitud)
+                ? data.latitud + ", " + data.longitud
+                : "no obtenido";
+
+            this.byId("txtGPS").setText("📍 GPS: " + gps);
+  
+            const btnSave = this.byId("btnSave");
+
+            if (this._editMode) {
+                btnSave.setText("🔄 Actualizar visita");
+            } else {
+                btnSave.setText("💾 Guardar visita");
             }
 
             this._updateButtons();
         },
 
         onGetLocation: function () {
+
+            if (this._editMode) return;
 
             if (!navigator.geolocation) {
                 return MessageToast.show("Geolocalización no soportada");
@@ -86,6 +143,8 @@ function (Controller, MessageToast, JSONModel) {
 
         onSetDate: function () {
 
+            if (this._editMode) return;
+
             const now = new Date();
 
             this._fecha = now.toISOString().split("T")[0];
@@ -99,6 +158,8 @@ function (Controller, MessageToast, JSONModel) {
         },
 
         onStartVisit: function () {
+
+            if (this._editMode) return;
 
             const now = new Date();
             this._horaInicio = now.toTimeString().split(" ")[0];
@@ -157,51 +218,66 @@ function (Controller, MessageToast, JSONModel) {
             if (!responsable) return MessageToast.show("Introduzca el responsable");
             if (!empleado) return MessageToast.show("Introduzca el empleado");
 
-            if (!this._fecha || !this._horaInicio || !this._horaFin) {
-                return MessageToast.show("Completa la visita (inicio y fin)");
-            }
+            
+            if (!this._editMode) {
 
-            if (!this._lat || !this._lon) return MessageToast.show("Debe obtener la ubicación GPS");
+                if (!this._fecha || !this._horaInicio || !this._horaFin) {
+                    return MessageToast.show("Completa la visita (inicio y fin)");
+                }
+
+                if (!this._lat || !this._lon) {
+                    return MessageToast.show("Debe obtener la ubicación GPS");
+                }
+            }
             
             Object.assign(data, {
-                fecha: new Date(this._fecha),
+                fecha: this._fecha,
                 horaInicio: this._horaInicio,
                 horaFin: this._horaFin,
                 latitud: this._lat,
                 longitud: this._lon
             });
 
-            const oEdit = this.getOwnerComponent().getModel("edit");
+            
+            const oContext = this.getOwnerComponent()._oEditContext;
 
-            if (oEdit) {
+            if (oContext) {
 
-                const sPath = oEdit.getPath();
+                const now = new Date();
 
-                oModel.update(sPath, data, {
-                    success: () => {
-                        MessageToast.show("✔ Visita actualizada");
+                const sFecha =
+                    now.toLocaleTimeString("es-ES") + " " +
+                    now.toLocaleDateString("es-ES");
 
-                        this.getOwnerComponent().setModel(null, "edit");
-                        this.onClear(true);
+                oContext.setProperty("empresa", data.empresa);
+                oContext.setProperty("direccion", data.direccion);
+                oContext.setProperty("contacto", data.contacto);
+                oContext.setProperty("email", data.email);
+                oContext.setProperty("responsable", data.responsable);
+                oContext.setProperty("empleado", data.empleado);
+                oContext.setProperty("observaciones", data.observaciones);
 
-                        this.getView().getModel("view").setProperty("/visitState", "START");
-                        this._updateButtons();
-                    },
-                    error: (err) => {
-                        MessageToast.show("Error al actualizar ❌");
-                        console.error(err);
-                    }
-                });
+                oContext.setProperty("ultimaModificacion", sFecha);
 
-                return;
+                MessageToast.show("✅ Actualizada correctamente");
+
+                this.getOwnerComponent().setModel(null, "edit");
+                this.getOwnerComponent()._oEditContext = null;
+
+                this.onClear();
+
+                this.getOwnerComponent().getRouter().navTo("RouteAdmin");
             }
 
             oModel.bindList("/Visitas").create(data)
-            MessageToast.show("✔ Visita guardada");
+            MessageToast.show("✅ Guardado correctamente");
             this.onClear(true);
         },
 
         onNavAdmin: function () {
+            this.getOwnerComponent().setModel(null, "edit");
+            this.getOwnerComponent()._oEditContext = null;
+
             this.getOwnerComponent().getRouter().navTo("RouteAdmin");
         },
 
@@ -228,6 +304,8 @@ function (Controller, MessageToast, JSONModel) {
 
             this.getView().getModel("view").setProperty("/visitState", "START");
             
+            this._updateButtons();
+
             MessageToast.show("Formulario limpio 🧹");
         }
 

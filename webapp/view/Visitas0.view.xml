@@ -25,13 +25,15 @@
                         id="btnStartVisit"
                         text="▶️ Iniciar visita"
                         type="Accept"
-                        press="onStartVisit" />
+                        press="onStartVisit"
+                        visible="true" />
 
                     <Button
                         id="btnEndVisit"
                         text="⏹ Finalizar visita"
                         type="Reject"
-                        press="onEndVisit" />
+                        press="onEndVisit"
+                        visible="false" />
 
                 </HBox>
 
